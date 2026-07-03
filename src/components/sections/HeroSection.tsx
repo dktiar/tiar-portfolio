@@ -19,7 +19,7 @@ export default function HeroSection({ profile, stats }: HeroSectionProps) {
 
   const profileImageSrc = profile.profileImage?.asset?._ref
     ? urlFor(profile.profileImage)
-    : "/images/profile.jpg";
+    : "/images/profile.png";
 
   return (
     <section className="section-fullscreen relative overflow-hidden">
