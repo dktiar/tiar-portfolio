@@ -17,7 +17,7 @@ import CertificationsSection from "@/components/sections/CertificationsSection";
 import GallerySection from "@/components/sections/GallerySection";
 import ContactSection from "@/components/sections/ContactSection";
 
-export const revalidate = 60;
+export const revalidate = 0; // Always fetch fresh from Sanity
 
 export default async function Home() {
   const [profile, experiences, projects, certifications, skills, stats, gallery, showcase] =
