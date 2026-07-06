@@ -21,19 +21,31 @@ export default function ContactSection({ profile }: ContactSectionProps) {
     e.preventDefault();
     setStatus("sending");
     try {
-      const formId = process.env.NEXT_PUBLIC_FORMSPREE_ID || "YOUR_FORM_ID";
+      // Form ID hardcoded as fallback supaya tidak bergantung pada env var
+      const formId = process.env.NEXT_PUBLIC_FORMSPREE_ID || "mbdvayzq";
       const response = await fetch(`https://formspree.io/f/${formId}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formState),
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify({
+          name: formState.name,
+          email: formState.email,
+          message: formState.message,
+          _replyto: formState.email,
+        }),
       });
       if (response.ok) {
         setStatus("success");
         setFormState({ name: "", email: "", message: "" });
       } else {
+        const data = await response.json();
+        console.error("Formspree error:", data);
         setStatus("error");
       }
-    } catch {
+    } catch (err) {
+      console.error("Submit error:", err);
       setStatus("error");
     }
   };
