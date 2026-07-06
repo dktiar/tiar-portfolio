@@ -124,3 +124,21 @@
     background: var(--border);
   }
 }
+
+/* Smooth section transitions */
+section {
+  transition: background-color 0.3s ease;
+}
+
+/* Placeholder text adapts to theme */
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-muted) !important;
+  opacity: 0.6;
+}
+
+/* Focus rings use accent color */
+input:focus,
+textarea:focus {
+  border-color: var(--text-accent) !important;
+}

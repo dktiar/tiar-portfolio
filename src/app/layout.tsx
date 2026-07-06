@@ -27,10 +27,31 @@ export const metadata: Metadata = {
     type: "website",
     locale: "id_ID",
     alternateLocale: "en_US",
+    images: [
+      {
+        url: "/images/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Tiar Dwi Krisnanto — IT Section Head Portfolio",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Tiar Dwi Krisnanto | IT Section Head",
+    description: "IT Leader | Infrastructure & Security | ISO 27001 | Property Tech",
+    images: ["/images/og-image.png"],
   },
   robots: {
     index: true,
     follow: true,
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico" },
+    ],
+    apple: "/apple-touch-icon.png",
   },
 };
 
