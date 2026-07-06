@@ -4,6 +4,7 @@ import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 import LayoutShell from "@/components/layout/LayoutShell";
+import JsonLd from "@/components/ui/JsonLd";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -59,6 +60,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className="scroll-smooth" data-theme="dark" suppressHydrationWarning>
       <body className={inter.className}>
+        <JsonLd />
         <ThemeProvider>
           <LanguageProvider>
             <LayoutShell>{children}</LayoutShell>

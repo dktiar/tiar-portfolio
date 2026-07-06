@@ -134,6 +134,11 @@ function FloatingDots() {
 }
 
 export default function Scene3D() {
+  // Respect user's reduced motion preference
+  if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    return null;
+  }
+
   return (
     <div className="absolute inset-0 opacity-70" style={{ mixBlendMode: "screen" }}>
       <Canvas camera={{ position: [0, 0, 6], fov: 50 }}>
