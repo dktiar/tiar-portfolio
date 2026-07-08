@@ -1,5 +1,3 @@
-// Content types matching Sanity schema
-
 export interface Profile {
   name: string;
   title: string;
@@ -45,6 +43,8 @@ export interface Project {
   descriptionEn: string;
   technologies: string[];
   impact: string;
+  impactId?: string;
+  impactEn?: string;
   status?: string;
   image?: SanityImage;
   order: number;
@@ -64,6 +64,7 @@ export interface Skill {
   _id: string;
   category: "infrastructure" | "development" | "management";
   categoryLabel: string;
+  categoryLabelId?: string;
   items: string[];
   order: number;
 }
@@ -71,8 +72,12 @@ export interface Skill {
 export interface Stat {
   _id: string;
   label: string;
+  labelId?: string;
+  labelEn?: string;
   value: string;
   context: string;
+  contextId?: string;
+  contextEn?: string;
   order: number;
 }
 

@@ -108,7 +108,9 @@ export default function HeroSection({ profile, stats }: HeroSectionProps) {
           {stats.map((stat) => (
             <div key={stat._id}>
               <p className="text-2xl sm:text-3xl font-bold" style={{ color: "var(--text-primary)" }}>{stat.value}</p>
-              <p className="text-xs mt-1 uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>{stat.label}</p>
+              <p className="text-xs mt-1 uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>
+                {t(stat.labelId || stat.label, stat.labelEn || stat.label)}
+              </p>
             </div>
           ))}
         </div>

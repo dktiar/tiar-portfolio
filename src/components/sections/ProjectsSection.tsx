@@ -2,7 +2,9 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
+import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
+import { urlFor } from "@/lib/sanity/client";
 import type { Project } from "@/types";
 
 const categories = [
@@ -75,11 +77,25 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.4, delay: 0.3 + idx * 0.1 }}
               layout
-              className="card-minimal group"
+              className="card-minimal group overflow-hidden"
             >
+              {/* Project image if available from Sanity */}
+              {project.image?.asset?._ref && (
+                <div className="relative w-full h-44 -mx-8 -mt-8 mb-6 overflow-hidden" style={{ width: "calc(100% + 4rem)" }}>
+                  <Image
+                    src={urlFor(project.image)}
+                    alt={project.title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                  />
+                  <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent, var(--bg-card))" }} />
+                </div>
+              )}
+
               <div className="flex items-center justify-between mb-6">
                 <span className="badge-minimal">{project.category.replace("-", " ")}</span>
-                <span className="text-neutral-700 text-xs">→</span>
+                <span className="text-xs" style={{ color: "var(--text-muted)" }}>→</span>
               </div>
 
               <h3 className="text-xl font-bold transition-colors mb-3" style={{ color: "var(--text-primary)" }}>
@@ -90,8 +106,9 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
                 {t(project.descriptionId, project.descriptionEn)}
               </p>
 
+              {/* Bilingual impact */}
               <p className="text-xs uppercase tracking-wider mb-4" style={{ color: "var(--text-accent)" }}>
-                {project.impact}
+                📊 {t(project.impactId || project.impact, project.impactEn || project.impact)}
               </p>
 
               <div className="flex flex-wrap gap-2">

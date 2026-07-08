@@ -2,7 +2,9 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
+import { urlFor } from "@/lib/sanity/client";
 import type { Certification, Skill } from "@/types";
 
 interface CertificationsSectionProps {
@@ -39,15 +41,29 @@ export default function CertificationsSection({ certifications, skills }: Certif
               transition={{ duration: 0.4, delay: 0.2 + idx * 0.1 }}
               className="card-minimal flex items-start gap-5"
             >
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)" }}>
-                <svg className="w-5 h-5" style={{ color: "var(--text-accent)" }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                </svg>
-              </div>
+              {/* Badge: use Sanity image if available, else default icon */}
+              {cert.badge?.asset?._ref ? (
+                <div className="w-14 h-14 rounded-xl overflow-hidden flex-shrink-0" style={{ border: "1px solid var(--border)" }}>
+                  <Image
+                    src={urlFor(cert.badge)}
+                    alt={cert.name}
+                    width={56}
+                    height={56}
+                    className="object-cover w-full h-full"
+                  />
+                </div>
+              ) : (
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "var(--bg-secondary)", border: "1px solid var(--border)" }}>
+                  <svg className="w-5 h-5" style={{ color: "var(--text-accent)" }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                  </svg>
+                </div>
+              )}
               <div>
                 <h3 className="font-medium mb-1" style={{ color: "var(--text-primary)" }}>{cert.name}</h3>
                 <p className="text-sm" style={{ color: "var(--text-muted)" }}>{cert.issuer}</p>
                 {cert.score && <p className="text-xs mt-2 font-mono" style={{ color: "var(--text-accent)" }}>{cert.score}</p>}
+                {cert.date && <p className="text-xs mt-1" style={{ color: "var(--text-muted)" }}>{cert.date}</p>}
               </div>
             </motion.div>
           ))}
@@ -63,7 +79,8 @@ export default function CertificationsSection({ certifications, skills }: Certif
               transition={{ duration: 0.4, delay: 0.5 + idx * 0.1 }}
             >
               <h3 className="font-medium mb-4 text-sm uppercase tracking-wider" style={{ color: "var(--text-primary)" }}>
-                {skillGroup.categoryLabel}
+                {/* Use bilingual label if available */}
+                {t(skillGroup.categoryLabelId || skillGroup.categoryLabel, skillGroup.categoryLabel)}
               </h3>
               <div className="flex flex-wrap gap-2">
                 {skillGroup.items.map((item) => (
